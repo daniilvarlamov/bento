@@ -10,6 +10,7 @@ import (
 
 	"github.com/warpstreamlabs/bento/internal/component/testutil"
 	"github.com/warpstreamlabs/bento/internal/manager/mock"
+	"github.com/warpstreamlabs/bento/internal/component/processor"
 	"github.com/warpstreamlabs/bento/internal/message"
 )
 
@@ -18,7 +19,7 @@ const (
 	gostTestHash    = "32b4ef0fa916e09864275ab3f4b927b869703b79ae9accdc3a7e49fc8445c44c"
 )
 
-func newGostHashCheckProcessor(t *testing.T, config string) *mock.Processor {
+func newGostHashCheckProcessor(t *testing.T, config string) processor.V1 {
 	t.Helper()
 
 	conf, err := testutil.ProcessorFromYAML(config)
