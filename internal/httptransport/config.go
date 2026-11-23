@@ -36,6 +36,11 @@ func FieldSpec() docs.FieldSpec {
 			"Maximum number of idle keep-alive connections. Zero = unlimited.",
 		).HasDefault(100).AtVersion("1.13.0").Advanced(),
 
+		docs.FieldInt(
+			"max_idle_connections_per_host",
+			"Maximum number of idle keep-alive connections per host. Zero uses the Go default.",
+		).HasDefault(2).AtVersion("1.23.0").Advanced(),
+
 		docs.FieldString(
 			"idle_connection_timeout",
 			"Maximum time an idle keep-alive connection remains open before closing itself.",

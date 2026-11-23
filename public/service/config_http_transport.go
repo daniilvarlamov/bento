@@ -13,6 +13,7 @@ const (
 	fieldDialContextKeepAlive  = "keep_alive"
 	fieldForceAttemptHTTP2     = "force_http2"
 	fieldMaxIdleConns          = "max_idle_connections"
+	fieldMaxIdleConnsPerHost   = "max_idle_connections_per_host"
 	fieldIdleConnTimeout       = "idle_connection_timeout"
 	fieldTLSHandshakeTimeout   = "tls_handshake_timeout"
 	fieldExpectContinueTimeout = "expect_continue_timeout"
@@ -42,6 +43,11 @@ func (pConf *ParsedConfig) FieldHTTPTransport(path ...string) (transport *http.T
 		return
 	}
 
+	maxIdleConnsPerHost, err := tranPConf.FieldInt(fieldMaxIdleConnsPerHost)
+	if err != nil {
+		return
+	}
+
 	idleConnTimeout, err := tranPConf.FieldDuration(fieldIdleConnTimeout)
 	if err != nil {
 		return
@@ -65,6 +71,7 @@ func (pConf *ParsedConfig) FieldHTTPTransport(path ...string) (transport *http.T
 		}).DialContext,
 		ForceAttemptHTTP2:     forceAttemptHTTP2,
 		MaxIdleConns:          maxIdleConns,
+		MaxIdleConnsPerHost:   maxIdleConnsPerHost,
 		IdleConnTimeout:       idleConnTimeout,
 		TLSHandshakeTimeout:   tlsHandshakeTimeout,
 		ExpectContinueTimeout: expectContinueTimeout,
