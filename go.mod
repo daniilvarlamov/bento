@@ -155,6 +155,7 @@ require (
 	github.com/snowplow/snowplow-golang-analytics-sdk v0.4.1
 	github.com/sourcegraph/conc v0.3.0
 	github.com/stretchr/testify v1.12.1
+	github.com/tarantool/go-gostcrypto v0.1.0
 	github.com/tetratelabs/wazero v1.11.0
 	github.com/tilinna/z85 v1.0.0
 	github.com/trinodb/trino-go-client v1.4.1
