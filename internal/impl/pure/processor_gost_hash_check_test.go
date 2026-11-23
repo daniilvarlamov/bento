@@ -63,8 +63,7 @@ gost_hash_check: {}
 	require.True(t, exists)
 	require.Equal(t, "GOST R 34.11-2012-256", algorithm)
 
-	actual, err := part.AsBytes()
-	require.NoError(t, err)
+	actual := part.AsBytes()
 	require.JSONEq(t, string(input), string(actual))
 }
 
