@@ -3,6 +3,7 @@ package pure
 import (
 	"context"
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"strings"
 
@@ -48,7 +49,7 @@ Malformed messages are marked as processing errors individually.
 			}
 			dataPath = strings.TrimSpace(dataPath)
 			if dataPath == "" {
-				return nil, fmt.Errorf("data_path must not be empty")
+				return nil, errors.New("data_path must not be empty")
 			}
 
 			return &gostHashCheckProcessor{
@@ -92,7 +93,7 @@ func (g *gostHashCheckProcessor) processMessage(msg *service.Message) {
 
 	root, ok := document.(map[string]any)
 	if !ok {
-		msg.SetError(fmt.Errorf("message must be a JSON object"))
+		msg.SetError(errors.New("message must be a JSON object"))
 		return
 	}
 
@@ -126,7 +127,7 @@ func (g *gostHashCheckProcessor) processMessage(msg *service.Message) {
 
 	decodedHash, err := hex.DecodeString(providedHash)
 	if err != nil || len(decodedHash) != 32 {
-		msg.SetError(fmt.Errorf("provided hash must be a valid 256-bit hexadecimal value"))
+		msg.SetError(errors.New("provided hash must be a valid 256-bit hexadecimal value"))
 		return
 	}
 
