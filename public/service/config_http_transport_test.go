@@ -21,6 +21,37 @@ transport: {}
 	require.Equal(t, 2, transport.MaxIdleConnsPerHost)
 }
 
+func TestConfigHTTPTransportMaxConnsPerHostDefault(t *testing.T) {
+	spec := NewConfigSpec().
+		Field(NewTransportField("transport"))
+
+	parsedConfig, err := spec.ParseYAML(`
+transport: {}
+`, nil)
+	require.NoError(t, err)
+
+	transport, err := parsedConfig.FieldHTTPTransport("transport")
+	require.NoError(t, err)
+
+	require.Equal(t, 0, transport.MaxConnsPerHost)
+}
+
+func TestConfigHTTPTransportMaxConnsPerHostCustom(t *testing.T) {
+	spec := NewConfigSpec().
+		Field(NewTransportField("transport"))
+
+	parsedConfig, err := spec.ParseYAML(`
+transport:
+  max_connections_per_host: 48
+`, nil)
+	require.NoError(t, err)
+
+	transport, err := parsedConfig.FieldHTTPTransport("transport")
+	require.NoError(t, err)
+
+	require.Equal(t, 48, transport.MaxConnsPerHost)
+}
+
 func TestConfigHTTPTransportMaxIdleConnsPerHostCustom(t *testing.T) {
 	spec := NewConfigSpec().
 		Field(NewTransportField("transport"))
