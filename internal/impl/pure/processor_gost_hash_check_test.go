@@ -53,6 +53,7 @@ gost_hash_check: {}
 
 	computed, exists := part.MetaGetMut("computedHash")
 	require.True(t, exists)
+	t.Logf("computed GOST hash: %v", computed)
 	require.Equal(t, gostTestHash, computed)
 
 	provided, exists := part.MetaGetMut("providedHash")
