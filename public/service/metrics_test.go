@@ -203,6 +203,11 @@ logger:
 	testMetrics.lock.Lock()
 	assert.Equal(t, "foo value from config", testMetrics.testField)
 
+	inputLatencyKey := "timer:input_latency_ns:[label path]:[fooinput root.input]"
+	inputLatencyValue, inputLatencyExists := testMetrics.values[inputLatencyKey]
+	t.Logf("input latency exists: %v, value: %d", inputLatencyExists, inputLatencyValue)
+	t.Logf("all metrics: %#v", testMetrics.values)
+
 	assert.Greater(t, testMetrics.values["timer:input_latency_ns:[label path]:[fooinput root.input]"], int64(1))
 	delete(testMetrics.values, "timer:input_latency_ns:[label path]:[fooinput root.input]")
 
