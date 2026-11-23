@@ -15,8 +15,8 @@ import (
 )
 
 const (
-	gostTestMessage = "Тестовое сообщение для конектора kafka"
-	gostTestHash    = "32b4ef0fa916e09864275ab3f4b927b869703b79ae9accdc3a7e49fc8445c44c"
+	gostTestMessage = "Hello, world!"
+	gostTestHash    = "CCB6FAE3553C101715DA535328DE718F6F6E412DB8611A38025C510AC8F85AEB"
 )
 
 func newGostHashCheckProcessor(t *testing.T, config string) processor.V1 {
@@ -36,7 +36,7 @@ func TestGostHashCheckValid(t *testing.T) {
 gost_hash_check: {}
 `)
 
-	input := []byte(`{"schema":{"type":"struct"},"payload":{"message":"Тестовое сообщение для конектора kafka","hash":"32b4ef0fa916e09864275ab3f4b927b869703b79ae9accdc3a7e49fc8445c44c"}}`)
+	input := []byte(`{"schema":{"type":"struct"},"payload":{"message":"Hello, world!","hash":"CCB6FAE3553C101715DA535328DE718F6F6E412DB8611A38025C510AC8F85AEB"}}`)
 	batch := message.QuickBatch([][]byte{input})
 
 	output, err := proc.ProcessBatch(context.Background(), batch)
@@ -73,7 +73,7 @@ func TestGostHashCheckCaseInsensitive(t *testing.T) {
 gost_hash_check: {}
 `)
 
-	input := []byte(`{"payload":{"message":"Тестовое сообщение для конектора kafka","hash":"` + strings.ToUpper(gostTestHash) + `"}}`)
+	input := []byte(`{"payload":{"message":"Hello, world!","hash":"` + strings.ToUpper(gostTestHash) + `"}}`)
 	output, err := proc.ProcessBatch(context.Background(), message.QuickBatch([][]byte{input}))
 	require.NoError(t, err)
 
@@ -87,7 +87,7 @@ func TestGostHashCheckMismatch(t *testing.T) {
 gost_hash_check: {}
 `)
 
-	input := []byte(`{"payload":{"message":"Тестовое сообщение для конектора kafka","hash":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}}`)
+	input := []byte(`{"payload":{"message":"Hello, world!","hash":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}}`)
 	output, err := proc.ProcessBatch(context.Background(), message.QuickBatch([][]byte{input}))
 	require.NoError(t, err)
 
@@ -105,7 +105,7 @@ gost_hash_check: {}
 `)
 
 	inputs := [][]byte{
-		[]byte(`{"payload":{"message":"Тестовое сообщение для конектора kafka","hash":"` + gostTestHash + `"}}`),
+		[]byte(`{"payload":{"message":"Hello, world!","hash":"` + gostTestHash + `"}}`),
 		[]byte(`{"payload":{"message":42,"hash":"` + gostTestHash + `"}}`),
 		[]byte(`not-json`),
 	}
